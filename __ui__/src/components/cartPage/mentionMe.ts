@@ -1,7 +1,7 @@
 import { Component } from '@Core/component';
 
 export class MentionMe extends Component {
-    public LOCATORS = {
+    protected LOCATORS = {
         // mentionMeContainer: this.locator.locator('[data-test-name="mentionMeContainer"]'),
         proceedToCheckout: this.page.locator('//button[contains(., "Proceed to Checkout")]'),
     };
