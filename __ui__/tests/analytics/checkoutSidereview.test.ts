@@ -28,7 +28,11 @@ test.describe('"CheckoutNonInteraction" "Error" events', () => {
         await checkoutPage.DeliveryStep.Form.continue();
         await page.waitForTimeout(5000);
     });
-    test('1 Wrong credit card number, no date, no cvv Event', async ({ page, checkoutPage, dataLayer }) => {
+    test('1 Wrong credit card number, no date, no cvv Event', async ({
+        page,
+        checkoutPage,
+        dataLayer,
+    }) => {
         const expectedEvent = {
             event: 'CheckoutNonInteraction',
             eventAction: 'Step 2 - Credit card',
@@ -42,7 +46,11 @@ test.describe('"CheckoutNonInteraction" "Error" events', () => {
         await page.waitForTimeout(5000);
         await verifyEvent('Error – Please enter a valid credit card number');
     });
-    test('2 Correct credit card number, no date, no cvv Event', async ({ page, checkoutPage, dataLayer }) => {
+    test('2 Correct credit card number, no date, no cvv Event', async ({
+        page,
+        checkoutPage,
+        dataLayer,
+    }) => {
         const expectedEvent = {
             event: 'CheckoutNonInteraction',
             eventAction: 'Step 2 - Credit card',
@@ -75,7 +83,7 @@ test.describe('"CheckoutNonInteraction" "Error" events', () => {
         await page.waitForTimeout(5000);
         await verifyEvent("Error – Please enter your card's security code (CVV/CID)");
     });
-    test('4 Cash on delivery Event', async ({ page, checkoutPage, dataLayer }) => {
+    test('4 Cash on delivery Event', async ({ checkoutPage, dataLayer }) => {
         const expectedEvent = {
             event: 'CheckoutInteraction',
             eventCategory: 'Checkout - D',
