@@ -24,7 +24,6 @@ test.describe('"CheckoutNonInteraction" "Error" events', () => {
         await page.waitForTimeout(2000);
         await checkoutPage.DeliveryStep.Form.fill(fakeFormData);
         await checkoutPage.DeliveryStep.Form.selectCountry('AL');
-        await page.waitForTimeout(2000);
         await checkoutPage.DeliveryStep.Form.continue();
         await page.waitForTimeout(5000);
     });
@@ -33,68 +32,56 @@ test.describe('"CheckoutNonInteraction" "Error" events', () => {
         checkoutPage,
         dataLayer,
     }) => {
-        const expectedEvent = {
-            event: 'CheckoutNonInteraction',
-            eventAction: 'Step 2 - Credit card',
-            eventCategory: 'Checkout - D',
-            eventLabel: 'Error – Please enter a valid credit card number',
-        };
-        const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
-        await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.wrongNumber);
-        await page.waitForTimeout(2000);
-        await checkoutPage.PaymentStep.CreditCard.placeOrderClick();
-        await page.waitForTimeout(5000);
-        await verifyEvent('Error – Please enter a valid credit card number');
-    });
-    test('2 Correct credit card number, no date, no cvv Event', async ({
-        page,
-        checkoutPage,
-        dataLayer,
-    }) => {
-        const expectedEvent = {
-            event: 'CheckoutNonInteraction',
-            eventAction: 'Step 2 - Credit card',
-            eventCategory: 'Checkout - D',
-            eventLabel: 'Error – Please enter a valid expiration date',
-        };
-        const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
-        await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.correctNumber);
-        await page.waitForTimeout(2000);
-        await checkoutPage.PaymentStep.CreditCard.placeOrderClick();
-        await page.waitForTimeout(5000);
-        await verifyEvent('Error – Please enter a valid expiration date');
-    });
-    test('3 Correct card number, correct date, no cvv Event', async ({
-        page,
-        checkoutPage,
-        dataLayer,
-    }) => {
-        const expectedEvent = {
-            event: 'CheckoutNonInteraction',
-            eventAction: 'Step 2 - Credit card',
-            eventCategory: 'Checkout - D',
-            eventLabel: "Error – Please enter your card's security code (CVV/CID)",
-        };
-        const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
-        await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.correctNumber);
-        await checkoutPage.PaymentStep.CreditCard.fillDate(cardData.date);
-        await page.waitForTimeout(2000);
-        await checkoutPage.PaymentStep.CreditCard.placeOrderClick();
-        await page.waitForTimeout(5000);
-        await verifyEvent("Error – Please enter your card's security code (CVV/CID)");
-    });
-    test('4 Cash on delivery Event', async ({ checkoutPage, dataLayer }) => {
-        const expectedEvent = {
-            event: 'CheckoutInteraction',
-            eventCategory: 'Checkout - D',
-            eventAction: 'Step 2 - Payment',
-            eventLabel: 'CTA - Place Order - Cash On Delivery',
-        };
-        const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
-        await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.correctNumber);
-        await checkoutPage.PaymentStep.CreditCard.fillDate(cardData.date);
-        await checkoutPage.PaymentStep.CashOnDelivery.openCashOnDelivery();
-        await checkoutPage.PaymentStep.CashOnDelivery.clickPlaceOrder();
-        await verifyEvent('CTA - Place Order - Cash On Delivery');
+        await test.step('1 Wrong credit card number, no date, no cvv Event', async () => {
+            const expectedEvent = {
+                event: 'CheckoutNonInteraction',
+                eventAction: 'Step 2 - Credit card',
+                eventCategory: 'Checkout - D',
+                eventLabel: 'Error – Please enter a valid credit card number',
+            };
+            const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
+            await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.wrongNumber);
+            await checkoutPage.PaymentStep.CreditCard.placeOrderClick();
+            await verifyEvent('Error – Please enter a valid credit card number');
+        });
+        await test.step('2 Correct credit card number, no date, no cvv Event', async () => {
+            const expectedEvent = {
+                event: 'CheckoutNonInteraction',
+                eventAction: 'Step 2 - Credit card',
+                eventCategory: 'Checkout - D',
+                eventLabel: 'Error – Please enter a valid expiration date',
+            };
+            const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
+            await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.correctNumber);
+            await checkoutPage.PaymentStep.CreditCard.placeOrderClick();
+            await verifyEvent('Error – Please enter a valid expiration date');
+        });
+        await test.step('3 Correct card number, correct date, no cvv Event', async () => {
+            const expectedEvent = {
+                event: 'CheckoutNonInteraction',
+                eventAction: 'Step 2 - Credit card',
+                eventCategory: 'Checkout - D',
+                eventLabel: "Error – Please enter your card's security code (CVV/CID)",
+            };
+            const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
+            await checkoutPage.PaymentStep.CreditCard.fillDate(cardData.date);
+            await checkoutPage.PaymentStep.CreditCard.placeOrderClick();
+            await verifyEvent("Error – Please enter your card's security code (CVV/CID)");
+        });
+        await test.step('4 Cash on delivery Event', async () => {
+            const expectedEvent = {
+                event: 'CheckoutInteraction',
+                eventCategory: 'Checkout - D',
+                eventAction: 'Step 2 - Payment',
+                eventLabel: 'CTA - Place Order - Cash On Delivery',
+            };
+            const verifyEvent = dataLayer.createEventVerifier(expectedEvent);
+            await checkoutPage.PaymentStep.CreditCard.fillNumber(cardData.correctNumber);
+            await checkoutPage.PaymentStep.CreditCard.fillDate(cardData.date);
+            await checkoutPage.PaymentStep.CashOnDelivery.openCashOnDelivery();
+            await checkoutPage.PaymentStep.CashOnDelivery.clickPlaceOrder();
+            await page.waitForLoadState('domcontentloaded');
+            await verifyEvent('CTA - Place Order - Cash On Delivery');
+        });
     });
 });

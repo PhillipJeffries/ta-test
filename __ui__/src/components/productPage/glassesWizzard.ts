@@ -12,6 +12,16 @@ export class GlassesWizzard extends Component {
         noThanks: this.locator.locator('//button[contains(., "No Thanks")]'),
         addToCart: this.locator.locator('//button[contains(., "Add to Cart")]'),
     };
+    public async chooseNoExtraChargeSteps(): Promise<void> {
+        await this.clickSingleVision();
+        await this.clickSendLater();
+        await this.clickBasicLenses();
+        await this.clickContinue();
+        await this.clickLensesForEverydayUse();
+        await this.clickContinue();
+        await this.clickNoThanks();
+    }
+
     public async clickSingleVision(): Promise<void> {
         await this.LOCATORS.singleVision.click();
         await this.page.waitForTimeout(2000);

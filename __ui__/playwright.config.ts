@@ -24,7 +24,7 @@ export default defineConfig({
         ignoreHTTPSErrors: true,
         launchOptions: {
             devtools: true,
-            args: ['--start-maximized'],
+            args: ['--start-fullscreen'],
         },
     },
     projects: [

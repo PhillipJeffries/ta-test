@@ -13,6 +13,7 @@ export class Form extends Component {
     }
     public async selectCountry(value: string): Promise<void> {
         await this.LOCATORS.countrySelect.selectOption(value);
+        await this.page.waitForTimeout(2000);
     }
     public async continue(): Promise<void> {
         await this.LOCATORS.continue.click();
