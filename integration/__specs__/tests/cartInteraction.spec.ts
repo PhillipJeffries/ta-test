@@ -6,9 +6,9 @@ describe('cart interaction', () => {
     const cartPage = new CartPageContainer();
     const mock = Mock.getInstance();
     const mockNewCardData = {
-        name: 'wooden dick',
-        price: 2000,
-        quantity: 5,
+        name: 'My Beloved Item',
+        price: 23,
+        quantity: 4,
     };
     beforeEach(async () => {
         mock.addMocks(new GetCartProductsMock());
