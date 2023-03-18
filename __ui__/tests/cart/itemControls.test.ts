@@ -15,12 +15,15 @@ test.describe('Item controls on cart page', () => {
         await productPage.GlassesWizzard.clickAddToCart();
         await test.step('1 increase quantity', async () => {
             const subTotalInitial = await cartPage.MentionMe.getSubtotal();
+            console.log(subTotalInitial);
             await cartPage.CartItem.increaseQuantity();
             const subTotalAfterIncrease = await cartPage.MentionMe.getSubtotal();
             expect(subTotalInitial).not.toEqual(subTotalAfterIncrease);
         });
         await test.step('2 decrease quantity', async () => {
             const subTotalInitial = await cartPage.MentionMe.getSubtotal();
+            const subTotalManualCount = await cartPage.MentionMe.getManualSubTotalCount();
+            expect(subTotalInitial).toBe(subTotalManualCount);
             await cartPage.CartItem.decreaseQuantity();
             const subTotalAfterDecrease = await cartPage.MentionMe.getSubtotal();
             expect(subTotalInitial).not.toEqual(subTotalAfterDecrease);
