@@ -1,5 +1,4 @@
 import { Container } from '@Core/container';
-import type { Locator } from '@playwright/test';
 
 export class CategoryPage extends Container {
     protected LOCATORS = {
@@ -9,6 +8,7 @@ export class CategoryPage extends Container {
         await this.page.goto(`/${url}`, {
             waitUntil: 'domcontentloaded',
         });
+        await this.page.waitForLoadState('domcontentloaded');
     }
     public async clickFirstProduct(): Promise<void> {
         const productsArray = await this.LOCATORS.product.all();

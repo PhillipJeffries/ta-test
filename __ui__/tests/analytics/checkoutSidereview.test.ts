@@ -25,7 +25,7 @@ test.describe('"CheckoutNonInteraction" "Error" events', () => {
         await checkoutPage.DeliveryStep.Form.fill(fakeFormData);
         await checkoutPage.DeliveryStep.Form.selectCountry('AL');
         await checkoutPage.DeliveryStep.Form.continue();
-        await page.waitForTimeout(5000);
+        // await page.waitForTimeout(5000);
     });
     test('1 Wrong credit card number, no date, no cvv Event', async ({
         page,

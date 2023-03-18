@@ -9,11 +9,13 @@ export class Form extends Component {
     public async fill(dataToFill: Record<string, string>): Promise<void> {
         for (const [inputName, data] of Object.entries(dataToFill)) {
             await this.LOCATORS.input(inputName).fill(data);
+            await this.page.waitForTimeout(1000);
+            
         }
     }
     public async selectCountry(value: string): Promise<void> {
         await this.LOCATORS.countrySelect.selectOption(value);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(1000);
     }
     public async continue(): Promise<void> {
         await this.LOCATORS.continue.click();

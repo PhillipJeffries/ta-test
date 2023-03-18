@@ -8,10 +8,11 @@ export class MentionMe extends Component {
     };
     public async proceedToCheckout(): Promise<void> {
         await this.LOCATORS.proceedToCheckout.click();
-        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('load');
     }
 
     public async getSubtotal(): Promise<string | null> {
-        return await this.LOCATORS.summarySubTotal.textContent();
+        const text = await this.LOCATORS.summarySubTotal.textContent();
+        return text;
     }
 }
