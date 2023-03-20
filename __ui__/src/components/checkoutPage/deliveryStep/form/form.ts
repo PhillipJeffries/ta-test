@@ -10,7 +10,6 @@ export class Form extends Component {
         for (const [inputName, data] of Object.entries(dataToFill)) {
             await this.LOCATORS.input(inputName).fill(data);
             await this.page.waitForTimeout(1000);
-            
         }
     }
     public async selectCountry(value: string): Promise<void> {

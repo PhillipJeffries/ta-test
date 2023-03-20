@@ -17,7 +17,7 @@ export class MentionMe extends Component {
 
     public async getSubtotal(): Promise<number | null> {
         const subTotalValue = await this.LOCATORS.summarySubTotal.textContent();
-        if(subTotalValue){
+        if (subTotalValue) {
             return priceToNumber(subTotalValue);
         }
         return null;
@@ -26,8 +26,11 @@ export class MentionMe extends Component {
         const grandTotalValue = await this.LOCATORS.summaryGrandTotal.textContent();
         const discountValue = await this.LOCATORS.summaryDiscount.textContent();
         const shippingPriceValue = await this.LOCATORS.summaryShippingPrice.textContent();
-        if(grandTotalValue && discountValue && shippingPriceValue) {
-            const manualSubTotalCount = priceToNumber(grandTotalValue) - priceToNumber(shippingPriceValue) + priceToNumber(discountValue)
+        if (grandTotalValue && discountValue && shippingPriceValue) {
+            const manualSubTotalCount =
+                priceToNumber(grandTotalValue) -
+                priceToNumber(shippingPriceValue) +
+                priceToNumber(discountValue);
             return manualSubTotalCount;
         }
         return null;
